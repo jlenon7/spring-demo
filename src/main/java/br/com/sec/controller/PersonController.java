@@ -33,9 +33,9 @@ public class PersonController {
         return personService.create(person);
     }
 
-    @RequestMapping(method=RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-    public Person update(@RequestBody Person person) throws UnsupportedMathOperationException {
-        return personService.update(person);
+    @RequestMapping(value="/{id}", method=RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    public Person update(@PathVariable("id") String id, @RequestBody Person person) throws UnsupportedMathOperationException {
+        return personService.update(id, person);
     }
 
     @RequestMapping(value="/{id}", method=RequestMethod.GET)

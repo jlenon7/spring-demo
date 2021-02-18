@@ -1,25 +1,38 @@
 package br.com.sec.models;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
+@Entity
+@Table(name="persons")
 public class Person implements Serializable{
 
     private static final long serialVersionUID = 1L;
 
-    private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String id;
+
+    @Column(name="first_name", nullable = false, length = 80)
     private String firstName;
+
+    @Column(name="last_name", nullable = false, length = 80)
     private String lastName;
+
+    @Column(nullable = false, length = 100)
     private String address;
+
+    @Column(nullable = false, length = 6)
     private String gender;
 
     public Person() {
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
