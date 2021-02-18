@@ -14,7 +14,7 @@ public class PersonService {
     @Autowired
     private PersonRepository personRepository;
 
-    public Person findById(String id) {
+    public Person findById(Long id) {
         return personRepository.findById(id).orElseThrow(() -> new NotFoundException("No records found for this ID"));
     }
 
@@ -22,7 +22,7 @@ public class PersonService {
         return personRepository.save(person);
     }
 
-    public Person update(String id, Person person) {
+    public Person update(Long id, Person person) {
         Person entity = findById(id);
 
         entity.setFirstName(person.getFirstName());
@@ -33,7 +33,7 @@ public class PersonService {
         return create(entity);
     }
 
-    public void delete(String id) {
+    public void delete(Long id) {
         personRepository.delete(findById(id));
     }
 
