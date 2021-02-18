@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import br.com.sec.models.Person;
+import br.com.sec.models.vo.PersonVO;
 import br.com.sec.services.PersonService;
 import br.com.sec.exception.UnsupportedMathOperationException;
 
@@ -20,22 +20,22 @@ public class PersonController {
     private PersonService personService;
 
     @GetMapping
-    public List<Person> index() throws UnsupportedMathOperationException {
+    public List<PersonVO> index() throws UnsupportedMathOperationException {
         return personService.findAll();
     }
 
     @PostMapping
-    public Person create(@RequestBody Person person) {
+    public PersonVO create(@RequestBody PersonVO person) {
         return personService.create(person);
     }
 
     @GetMapping("/{id}")
-    public Person show(@PathVariable("id") Long id) throws NotFoundException {
+    public PersonVO show(@PathVariable("id") Long id) throws NotFoundException {
         return personService.findById(id);
     }
 
     @PutMapping("/{id}")
-    public Person update(@PathVariable("id") Long id, @RequestBody Person person) throws NotFoundException {
+    public PersonVO update(@PathVariable("id") Long id, @RequestBody PersonVO person) throws NotFoundException {
         return personService.update(id, person);
     }
 

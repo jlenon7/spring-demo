@@ -2,7 +2,9 @@ package br.com.sec.services;
 
 import java.util.List;
 
+import br.com.sec.adapters.DozerAdapter;
 import br.com.sec.models.Person;
+import br.com.sec.models.vo.PersonVO;
 import org.springframework.stereotype.Service;
 import br.com.sec.exception.NotFoundException;
 import br.com.sec.repositories.PersonRepository;
@@ -14,16 +16,20 @@ public class PersonService {
     @Autowired
     private PersonRepository personRepository;
 
-    public Person findById(Long id) {
-        return personRepository.findById(id).orElseThrow(() -> new NotFoundException("No records found for this ID"));
+    public PersonVO findById(Long id) {
+        var entity = personRepository.findById(id).orElseThrow(() -> new NotFoundException("No records found for this ID"));
+
+        return DozerAdapter.parseObject(entity, PersonVO.class);
     }
 
-    public Person create(Person person) {
-        return personRepository.save(person);
+    public PersonVO create(PersonVO person) {
+        var entity = DozerAdapter.parseObject(person, Person.class);
+
+        return DozerAdapter.parseObject(personRepository.save(entity), PersonVO.class);
     }
 
-    public Person update(Long id, Person person) {
-        Person entity = findById(id);
+    public PersonVO update(Long id, PersonVO person) {
+        PersonVO entity = findById(id);
 
         entity.setFirstName(person.getFirstName());
         entity.setLastName(person.getLastName());
@@ -34,11 +40,11 @@ public class PersonService {
     }
 
     public void delete(Long id) {
-        personRepository.delete(findById(id));
+        personRepository.delete(DozerAdapter.parseObject(findById(id), Person.class));
     }
 
-    public List<Person> findAll() {
-        return personRepository.findAll();
+    public List<PersonVO> findAll() {
+        return DozerAdapter.parseListObjects(personRepository.findAll(), PersonVO.class);
     }
 
 }
