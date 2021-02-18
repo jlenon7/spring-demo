@@ -3,8 +3,10 @@ package br.com.sec.services;
 import java.util.List;
 
 import br.com.sec.adapters.DozerAdapter;
+import br.com.sec.adapters.custom.PersonConverter;
 import br.com.sec.models.Person;
 import br.com.sec.models.vo.PersonVO;
+import br.com.sec.models.vo.PersonVOV2;
 import org.springframework.stereotype.Service;
 import br.com.sec.exception.NotFoundException;
 import br.com.sec.repositories.PersonRepository;
@@ -16,6 +18,9 @@ public class PersonService {
     @Autowired
     private PersonRepository personRepository;
 
+    @Autowired
+    private PersonConverter personConverter;
+
     public PersonVO findById(Long id) {
         var entity = personRepository.findById(id).orElseThrow(() -> new NotFoundException("No records found for this ID"));
 
@@ -26,6 +31,12 @@ public class PersonService {
         var entity = DozerAdapter.parseObject(person, Person.class);
 
         return DozerAdapter.parseObject(personRepository.save(entity), PersonVO.class);
+    }
+
+    public PersonVOV2 createV2(PersonVOV2 person) {
+        var entity = personConverter.convertVOToEntity(person);
+
+        return personConverter.convertEntityToVO(personRepository.save(entity));
     }
 
     public PersonVO update(Long id, PersonVO person) {

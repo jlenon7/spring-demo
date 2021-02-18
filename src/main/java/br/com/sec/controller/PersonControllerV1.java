@@ -8,19 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.sec.models.vo.PersonVO;
 import br.com.sec.services.PersonService;
-import br.com.sec.exception.UnsupportedMathOperationException;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(value="/persons")
-public class PersonController {
+@RequestMapping(value="/v1/persons")
+public class PersonControllerV1 {
 
     @Autowired
     private PersonService personService;
 
     @GetMapping
-    public List<PersonVO> index() throws UnsupportedMathOperationException {
+    public List<PersonVO> index() {
         return personService.findAll();
     }
 
