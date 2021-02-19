@@ -12,7 +12,7 @@ import br.com.sec.services.PersonService;
 import java.util.List;
 
 @RestController
-@RequestMapping(value="/v1/persons")
+@RequestMapping(value="/api/v1/persons")
 public class PersonControllerV1 {
 
     @Autowired

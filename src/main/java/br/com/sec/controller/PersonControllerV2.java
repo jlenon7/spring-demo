@@ -8,7 +8,7 @@ import br.com.sec.services.PersonService;
 
 
 @RestController
-@RequestMapping(value="/v2/persons")
+@RequestMapping(value="/api/v2/persons")
 public class PersonControllerV2 {
 
     @Autowired
