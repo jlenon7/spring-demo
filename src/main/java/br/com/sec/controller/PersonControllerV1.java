@@ -11,6 +11,9 @@ import br.com.sec.services.PersonService;
 
 import java.util.List;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
 @RestController
 @RequestMapping(value="/api/v1/persons")
 public class PersonControllerV1 {
@@ -19,22 +22,34 @@ public class PersonControllerV1 {
 
     @GetMapping(produces = {"application/json", "application/xml", "application/x-yaml"})
     public List<PersonVO> index() {
-        return personService.findAll();
+        List<PersonVO> persons = personService.findAll();
+        persons.forEach(p -> p.add(linkTo(methodOn(PersonControllerV1.class).show(p.getKey())).withSelfRel()));
+
+        return persons;
     }
 
     @PostMapping(produces = { "application/json", "application/xml", "application/x-yaml" }, consumes = { "application/json", "application/xml", "application/x-yaml" })
     public PersonVO create(@RequestBody PersonVO person) {
-        return personService.create(person);
+        PersonVO personVo = personService.create(person);
+        personVo.add(linkTo(methodOn(PersonControllerV1.class).show(personVo.getKey())).withSelfRel());
+
+        return personVo;
     }
 
     @GetMapping(value = "/{id}", produces = { "application/json", "application/xml", "application/x-yaml" })
     public PersonVO show(@PathVariable("id") Long id) throws NotFoundException {
-        return personService.findById(id);
+        PersonVO personVo = personService.findById(id);
+        personVo.add(linkTo(methodOn(PersonControllerV1.class).show(id)).withSelfRel());
+
+        return personVo;
     }
 
     @PutMapping(value = "/{id}", produces = { "application/json", "application/xml" }, consumes = { "application/json", "application/xml", "application/x-yaml" })
     public PersonVO update(@PathVariable("id") Long id, @RequestBody PersonVO person) throws NotFoundException {
-        return personService.update(id, person);
+        PersonVO personVo = personService.update(id, person);
+        personVo.add(linkTo(methodOn(PersonControllerV1.class).show(personVo.getKey())).withSelfRel());
+
+        return personVo;
     }
 
     @DeleteMapping("/{id}")
