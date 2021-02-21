@@ -1,5 +1,6 @@
 package br.com.sec.controller;
 
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -9,6 +10,7 @@ import br.com.sec.exception.UnsupportedMathOperationException;
 import br.com.sec.math.SimpleMath;
 import br.com.sec.request.converters.NumberConverter;
 
+@Api(tags = {"Calculator Resource"})
 @RestController
 public class MathController {
 
