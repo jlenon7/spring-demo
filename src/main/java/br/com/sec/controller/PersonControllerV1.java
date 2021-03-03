@@ -16,6 +16,7 @@ import java.util.List;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
+// @CrossOrigin
 @Api(tags = {"Person Resource"})
 @RestController
 @RequestMapping(value="/api/v1/persons")
@@ -32,6 +33,7 @@ public class PersonControllerV1 {
         return persons;
     }
 
+    // @CrossOrigin(origins = {"http://localhost:8080"})
     @ApiOperation(value="Create Person")
     @PostMapping(produces = { "application/json", "application/xml", "application/x-yaml" }, consumes = { "application/json", "application/xml", "application/x-yaml" })
     public PersonVO create(@RequestBody PersonVO person) {
